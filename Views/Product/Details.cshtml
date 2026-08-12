@@ -1,0 +1,63 @@
+@model ABCRetail.Models.Product
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<div class="max-w-2xl mx-auto">
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Product Details</h1>
+        <p class="text-gray-600">View product information from Azure Table Storage.</p>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Category</dt>
+                <dd class="mt-1 text-lg text-gray-900">@Model.PartitionKey</dd>
+            </div>
+            <div class="border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Product ID</dt>
+                <dd class="mt-1 text-lg text-gray-900">@Model.RowKey</dd>
+            </div>
+            <div class="md:col-span-2 border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Product Name</dt>
+                <dd class="mt-1 text-lg text-gray-900">@Model.ProductName</dd>
+            </div>
+            <div class="md:col-span-2 border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Description</dt>
+                <dd class="mt-1 text-lg text-gray-900">@(string.IsNullOrEmpty(Model.Description) ? "-" : Model.Description)</dd>
+            </div>
+            <div class="border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Price</dt>
+                <dd class="mt-1 text-lg text-gray-900 font-semibold">$@Model.Price.ToString("N2")</dd>
+            </div>
+            <div class="border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Stock Quantity</dt>
+                <dd class="mt-1 text-lg @(Model.StockQuantity > 10 ? "text-green-600" : Model.StockQuantity > 0 ? "text-yellow-600" : "text-red-600") font-semibold">
+                    @Model.StockQuantity units
+                </dd>
+            </div>
+            <div class="md:col-span-2">
+                <dt class="text-sm font-medium text-gray-500">Last Modified</dt>
+                <dd class="mt-1 text-lg text-gray-900">@(Model.Timestamp?.ToString("yyyy-MM-dd HH:mm:ss") ?? "N/A")</dd>
+            </div>
+        </dl>
+
+        <div class="mt-6 flex justify-between">
+            <a asp-action="Index" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                Back to List
+            </a>
+            <div class="space-x-2">
+                <a asp-action="Edit" asp-route-partitionKey="@Model.PartitionKey" asp-route-rowKey="@Model.RowKey" 
+                   class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    Edit
+                </a>
+                <a asp-action="Delete" asp-route-partitionKey="@Model.PartitionKey" asp-route-rowKey="@Model.RowKey" 
+                   class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

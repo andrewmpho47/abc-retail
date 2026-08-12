@@ -1,0 +1,65 @@
+@model ABCRetail.Models.CustomerProfile
+
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+<div class="max-w-2xl mx-auto">
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Customer Details</h1>
+        <p class="text-gray-600">View customer profile information from Azure Table Storage.</p>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Partition Key</dt>
+                <dd class="mt-1 text-lg text-gray-900">@Model.PartitionKey</dd>
+            </div>
+            <div class="border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Row Key</dt>
+                <dd class="mt-1 text-lg text-gray-900">@Model.RowKey</dd>
+            </div>
+            <div class="border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">First Name</dt>
+                <dd class="mt-1 text-lg text-gray-900">@Model.FirstName</dd>
+            </div>
+            <div class="border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Last Name</dt>
+                <dd class="mt-1 text-lg text-gray-900">@Model.LastName</dd>
+            </div>
+            <div class="border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Email</dt>
+                <dd class="mt-1 text-lg text-gray-900">@Model.Email</dd>
+            </div>
+            <div class="border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Phone Number</dt>
+                <dd class="mt-1 text-lg text-gray-900">@(string.IsNullOrEmpty(Model.PhoneNumber) ? "-" : Model.PhoneNumber)</dd>
+            </div>
+            <div class="md:col-span-2 border-b pb-2">
+                <dt class="text-sm font-medium text-gray-500">Address</dt>
+                <dd class="mt-1 text-lg text-gray-900">@(string.IsNullOrEmpty(Model.Address) ? "-" : Model.Address)</dd>
+            </div>
+            <div class="md:col-span-2">
+                <dt class="text-sm font-medium text-gray-500">Last Modified</dt>
+                <dd class="mt-1 text-lg text-gray-900">@(Model.Timestamp?.ToString("yyyy-MM-dd HH:mm:ss") ?? "N/A")</dd>
+            </div>
+        </dl>
+
+        <div class="mt-6 flex justify-between">
+            <a asp-action="Index" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                Back to List
+            </a>
+            <div class="space-x-2">
+                <a asp-action="Edit" asp-route-partitionKey="@Model.PartitionKey" asp-route-rowKey="@Model.RowKey" 
+                   class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    Edit
+                </a>
+                <a asp-action="Delete" asp-route-partitionKey="@Model.PartitionKey" asp-route-rowKey="@Model.RowKey" 
+                   class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

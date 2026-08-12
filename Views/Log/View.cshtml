@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "View Log File";
+    var fileName = ViewBag.FileName as string;
+    var content = ViewBag.Content as string;
+}
+
+<div class="max-w-4xl mx-auto">
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">View Log File</h1>
+        <p class="text-gray-600">@fileName</p>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="px-6 py-4 bg-gray-50 border-b flex justify-between items-center">
+            <h2 class="text-lg font-semibold text-gray-800">File Content</h2>
+            <a asp-action="Download" asp-route-fileName="@fileName" class="text-blue-600 hover:text-blue-800 text-sm flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                Download
+            </a>
+        </div>
+        <div class="p-6">
+            <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm font-mono whitespace-pre-wrap">@content</pre>
+        </div>
+    </div>
+
+    <div class="mt-6">
+        <a asp-action="Index" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+            Back to List
+        </a>
+    </div>
+</div>

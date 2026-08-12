@@ -1,0 +1,64 @@
+@model IEnumerable<ABCRetail.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="mb-6">
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-3xl font-bold text-gray-800">Products</h1>
+        <a asp-action="Create" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+            Add New Product
+        </a>
+    </div>
+    <p class="text-gray-600">Manage product information stored in Azure Table Storage.</p>
+</div>
+
+<div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product ID</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">No products found. Click "Add New Product" to create one.</td>
+                </tr>
+            }
+            @foreach (var product in Model)
+            {
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@product.PartitionKey</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@product.RowKey</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@product.ProductName</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$@product.Price.ToString("N2")</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        <span class="@(product.StockQuantity > 10 ? "text-green-600" : product.StockQuantity > 0 ? "text-yellow-600" : "text-red-600")">
+                            @product.StockQuantity
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                        <a asp-action="Details" asp-route-partitionKey="@product.PartitionKey" asp-route-rowKey="@product.RowKey" 
+                           class="text-blue-600 hover:text-blue-900">Details</a>
+                        <a asp-action="Edit" asp-route-partitionKey="@product.PartitionKey" asp-route-rowKey="@product.RowKey" 
+                           class="text-green-600 hover:text-green-900">Edit</a>
+                        <a asp-action="Delete" asp-route-partitionKey="@product.PartitionKey" asp-route-rowKey="@product.RowKey" 
+                           class="text-red-600 hover:text-red-900">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-4 text-sm text-gray-500">
+    Total products: @Model.Count()
+</div>

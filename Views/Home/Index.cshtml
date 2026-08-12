@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">ABC Retail Management System</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Table Storage -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-blue-600 mb-4">Table Storage</h2>
+            <div class="space-y-3">
+                <a asp-controller="Customer" asp-action="Index" class="block bg-blue-50 hover:bg-blue-100 text-blue-700 px-4 py-3 rounded transition">
+                    Customer Profiles
+                </a>
+                <a asp-controller="Product" asp-action="Index" class="block bg-blue-50 hover:bg-blue-100 text-blue-700 px-4 py-3 rounded transition">
+                    Products
+                </a>
+            </div>
+        </div>
+
+        <!-- Blob Storage -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-green-600 mb-4">Blob Storage</h2>
+            <div class="space-y-3">
+                <a asp-controller="Image" asp-action="Index" class="block bg-green-50 hover:bg-green-100 text-green-700 px-4 py-3 rounded transition">
+                    Product Images
+                </a>
+                <a asp-controller="Multimedia" asp-action="Index" class="block bg-green-50 hover:bg-green-100 text-green-700 px-4 py-3 rounded transition">
+                    Multimedia Files
+                </a>
+            </div>
+        </div>
+
+        <!-- Queue Storage -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-purple-600 mb-4">Queue Storage</h2>
+            <div class="space-y-3">
+                <a asp-controller="OrderQueue" asp-action="Index" class="block bg-purple-50 hover:bg-purple-100 text-purple-700 px-4 py-3 rounded transition">
+                    Order Processing
+                </a>
+                <a asp-controller="InventoryQueue" asp-action="Index" class="block bg-purple-50 hover:bg-purple-100 text-purple-700 px-4 py-3 rounded transition">
+                    Inventory Management
+                </a>
+            </div>
+        </div>
+
+        <!-- File Storage -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-orange-600 mb-4">File Storage</h2>
+            <div class="space-y-3">
+                <a asp-controller="Log" asp-action="Index" class="block bg-orange-50 hover:bg-orange-100 text-orange-700 px-4 py-3 rounded transition">
+                    Application Logs
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

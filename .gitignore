@@ -1,0 +1,54 @@
+## .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+
+## Local storage for development
+LocalStorage/
+
+## Secrets
+appsettings.Development.json
+appsettings.Local.json
+*.pfx
+*.p12
+
+## IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+bld/
+
+## NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+## Test Results
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+
+## OS generated files
+.DS_Store
+Thumbs.db
+
+
+## Personal files
+*.docx
+*.png
+*.jpg
+*.jpeg

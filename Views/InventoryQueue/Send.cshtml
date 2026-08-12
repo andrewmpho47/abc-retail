@@ -1,0 +1,79 @@
+@model ABCRetail.Models.ViewModels.InventoryFormViewModel
+
+@{
+    ViewData["Title"] = "Send Inventory Message";
+}
+
+<div class="max-w-2xl mx-auto">
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Send Inventory Message</h1>
+        <p class="text-gray-600">Add a new inventory management message to Azure Queue Storage.</p>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <form asp-action="Send" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label asp-for="ProductId" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                    <input asp-for="ProductId" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., PROD001" />
+                    <span asp-validation-for="ProductId" class="text-red-600 text-sm"></span>
+                </div>
+                <div>
+                    <label asp-for="ActionType" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                    <select asp-for="ActionType" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Select Action</option>
+                        <option value="Restock">Restock</option>
+                        <option value="Deduct">Deduct</option>
+                        <option value="Alert">Alert</option>
+                    </select>
+                    <span asp-validation-for="ActionType" class="text-red-600 text-sm"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Quantity" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                <input asp-for="Quantity" type="number" min="0" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <span asp-validation-for="Quantity" class="text-red-600 text-sm"></span>
+            </div>
+
+            <div class="mb-6">
+                <label asp-for="Reason" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                <textarea asp-for="Reason" rows="2" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., New shipment arrived"></textarea>
+                <span asp-validation-for="Reason" class="text-red-600 text-sm"></span>
+            </div>
+
+            <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Message Preview</h3>
+                <p class="text-sm text-gray-600 font-mono" id="messagePreview">
+                    [ActionType] inventory for [ProductId]: [Quantity] units - [Reason]
+                </p>
+            </div>
+
+            <div class="flex justify-between">
+                <a asp-action="Index" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    Cancel
+                </a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors">
+                    Send Message
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function updatePreview() {
+            var productId = document.getElementById('ProductId').value || '[ProductId]';
+            var actionType = document.getElementById('ActionType').value || '[ActionType]';
+            var quantity = document.getElementById('Quantity').value || '[Quantity]';
+            var reason = document.getElementById('Reason').value || '[Reason]';
+            document.getElementById('messagePreview').textContent = 
+                actionType + ' inventory for ' + productId + ': ' + quantity + ' units - ' + reason;
+        }
+        document.querySelectorAll('input, select, textarea').forEach(el => el.addEventListener('input', updatePreview));
+    </script>
+}
