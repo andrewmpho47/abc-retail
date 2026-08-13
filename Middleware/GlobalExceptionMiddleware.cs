@@ -10,17 +10,20 @@ public class GlobalExceptionMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<GlobalExceptionMiddleware> _logger;
+    private readonly IServiceProvider _serviceProvider;
     private const string ErrorLogFileName = "application-errors.log";
 
     public GlobalExceptionMiddleware(
         RequestDelegate next,
-        ILogger<GlobalExceptionMiddleware> logger)
+        ILogger<GlobalExceptionMiddleware> logger,
+        IServiceProvider serviceProvider)
     {
         _next = next;
         _logger = logger;
+        _serviceProvider = serviceProvider;
     }
 
-    public async Task InvokeAsync(HttpContext context, IFileStorageService fileStorageService)
+    public async Task InvokeAsync(HttpContext context)
     {
         try
         {
@@ -30,19 +33,18 @@ public class GlobalExceptionMiddleware
         {
             _logger.LogError(ex, "An unhandled exception occurred while processing the request.");
             
-            await LogExceptionToAzureFilesAsync(fileStorageService, ex, context);
+            await LogExceptionToAzureFilesAsync(ex, context);
             
             await HandleExceptionAsync(context);
         }
     }
 
-    private async Task LogExceptionToAzureFilesAsync(
-        IFileStorageService fileStorageService,
-        Exception exception,
-        HttpContext context)
+    private async Task LogExceptionToAzureFilesAsync(Exception exception, HttpContext context)
     {
         try
         {
+            using var scope = _serviceProvider.CreateScope();
+            var fileStorageService = scope.ServiceProvider.GetRequiredService<IFileStorageService>();
             var logEntry = FormatLogEntry(exception, context);
             await fileStorageService.AppendToLogFileAsync(ErrorLogFileName, logEntry);
         }
