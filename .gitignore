@@ -13,6 +13,7 @@ LocalStorage/
 ## Secrets
 appsettings.Development.json
 appsettings.Local.json
+local.settings.json
 *.pfx
 *.p12
 

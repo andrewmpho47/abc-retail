@@ -1,0 +1,22 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
+  },
+  "AzureStorageSettings": {
+    "ConnectionString": "UseDevelopmentStorage=true",
+    "TableConnectionString": "",
+    "BlobConnectionString": "",
+    "QueueConnectionString": "",
+    "FileConnectionString": "",
+    "CustomerTableName": "customers",
+    "ProductTableName": "products",
+    "ImageContainerName": "images",
+    "MultimediaContainerName": "multimedia",
+    "OrderQueueName": "order-processing",
+    "InventoryQueueName": "inventory-management",
+    "ImageNotificationQueueName": "image-notifications",
+    "LogFileShareName": "logs"
+  }
+}

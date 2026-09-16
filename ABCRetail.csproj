@@ -7,10 +7,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="bin\**" />
+    <Compile Remove="obj\**" />
     <Compile Remove="ABCRetail.Tests\**" />
+    <Compile Remove="ABCRetail.Functions\**" />
+    <Compile Remove="SortApplication\**" />
+    <Compile Remove="publish\**" />
+    <Content Remove="bin\**" />
+    <Content Remove="obj\**" />
     <Content Remove="ABCRetail.Tests\**" />
+    <Content Remove="ABCRetail.Functions\**" />
+    <Content Remove="SortApplication\**" />
+    <Content Remove="publish\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="obj\**" />
     <EmbeddedResource Remove="ABCRetail.Tests\**" />
+    <EmbeddedResource Remove="ABCRetail.Functions\**" />
+    <EmbeddedResource Remove="SortApplication\**" />
+    <EmbeddedResource Remove="publish\**" />
+    <None Remove="bin\**" />
+    <None Remove="obj\**" />
     <None Remove="ABCRetail.Tests\**" />
+    <None Remove="ABCRetail.Functions\**" />
+    <None Remove="SortApplication\**" />
+    <None Remove="publish\**" />
   </ItemGroup>
 
   <ItemGroup>
