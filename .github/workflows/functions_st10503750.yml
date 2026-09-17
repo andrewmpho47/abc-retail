@@ -26,17 +26,22 @@ jobs:
       - name: Restore
         run: dotnet restore "${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/ABCRetail.Functions.csproj"
 
-      - name: Build
-        run: dotnet build "${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/ABCRetail.Functions.csproj" --configuration Release --no-restore
-
       - name: Publish
-        run: dotnet publish "${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/ABCRetail.Functions.csproj" --configuration Release --output "${{ env.DOTNET_ROOT }}/functions"
+        run: dotnet publish "${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/ABCRetail.Functions.csproj" --configuration Release --output "${{ github.workspace }}/publish"
+
+      - name: Verify Azure Functions files
+        shell: powershell
+        run: |
+          Write-Host "Checking publish output..."
+          Get-ChildItem "${{ github.workspace }}/publish"
+          Write-Host "Checking .azurefunctions..."
+          Get-ChildItem "${{ github.workspace }}/publish/.azurefunctions"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: functions-app
-          path: ${{ env.DOTNET_ROOT }}/functions
+          path: ${{ github.workspace }}/publish
 
   deploy:
     runs-on: windows-latest
@@ -47,10 +52,19 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: functions-app
+          path: ./publish
+
+      - name: Verify downloaded artifact
+        shell: powershell
+        run: |
+          Write-Host "Checking downloaded deployment files..."
+          Get-ChildItem -Force ./publish
+          Write-Host "Checking .azurefunctions..."
+          Get-ChildItem -Force ./publish/.azurefunctions
 
       - name: Deploy to Azure Functions
         uses: Azure/functions-action@v1
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-          package: .
+          package: ./publish
           publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
