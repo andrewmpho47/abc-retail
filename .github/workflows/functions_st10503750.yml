@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_NAME: st10503750-functions
+  AZURE_FUNCTIONAPP_NAME: st10503750-abc-retail-functions
   AZURE_FUNCTIONAPP_PACKAGE_PATH: ABCRetail.Functions
   DOTNET_VERSION: 8.0.x
 
