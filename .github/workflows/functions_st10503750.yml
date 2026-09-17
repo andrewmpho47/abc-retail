@@ -16,7 +16,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
@@ -33,15 +34,24 @@ jobs:
         shell: powershell
         run: |
           Write-Host "Checking publish output..."
-          Get-ChildItem "${{ github.workspace }}/publish"
+          Get-ChildItem -Force "${{ github.workspace }}/publish"
+
+          Write-Host ""
           Write-Host "Checking .azurefunctions..."
-          Get-ChildItem "${{ github.workspace }}/publish/.azurefunctions"
+          if (Test-Path "${{ github.workspace }}/publish/.azurefunctions") {
+              Write-Host ".azurefunctions folder FOUND"
+              Get-ChildItem -Force "${{ github.workspace }}/publish/.azurefunctions"
+          }
+          else {
+              Write-Error ".azurefunctions folder NOT FOUND"
+          }
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: functions-app
           path: ${{ github.workspace }}/publish
+          include-hidden-files: true
 
   deploy:
     runs-on: windows-latest
@@ -59,8 +69,16 @@ jobs:
         run: |
           Write-Host "Checking downloaded deployment files..."
           Get-ChildItem -Force ./publish
+
+          Write-Host ""
           Write-Host "Checking .azurefunctions..."
-          Get-ChildItem -Force ./publish/.azurefunctions
+          if (Test-Path "./publish/.azurefunctions") {
+              Write-Host ".azurefunctions folder FOUND in downloaded artifact"
+              Get-ChildItem -Force "./publish/.azurefunctions"
+          }
+          else {
+              Write-Error ".azurefunctions folder NOT FOUND in downloaded artifact"
+          }
 
       - name: Deploy to Azure Functions
         uses: Azure/functions-action@v1
